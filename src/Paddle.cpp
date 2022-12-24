@@ -1,20 +1,18 @@
 #include "Paddle.h"
-#include "iostream"
 
-Paddle::Paddle(int id, int winl, int winh, sf::Color color = sf::Color{0xe60052FF}) :
+Paddle::Paddle(int id, int winl, int winh) :
     player(id),
     length(20),
     height(100),
-    speed(5),
+    speed(3),
     gap(10),
     winlength(winl),
     winheight(winh),
     box(sf::RectangleShape{sf::Vector2f(length, height)}),
-    squarecolor(color)
+    squarecolor(sf::Color{0xe60052FF})
 { boxinit(); }
 
 void Paddle::boxinit() {
-    std::cout << "bob" << std::endl;
     if (player == 0)
         box.setPosition(gap, winheight/2 - height/2);
     else if (player == 1)
@@ -47,3 +45,8 @@ void Paddle::move() {
         }
     }
 }
+
+int Paddle::getposx() { return box.getPosition().x; }
+int Paddle::getposy() { return box.getPosition().y; }
+int Paddle::getlength() { return length; }
+int Paddle::getheight() { return height; }

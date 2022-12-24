@@ -3,8 +3,13 @@
 
 class Paddle {
     public:
-        Paddle(int, int, int, sf::Color);
+        Paddle(int, int, int);
         void draw(sf::RenderWindow&);
+
+        int getposx();
+        int getposy();
+        int getlength();
+        int getheight();
 
     private:
         void boxcolor(sf::Color);

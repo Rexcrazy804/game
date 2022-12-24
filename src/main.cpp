@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Paddle.cpp"
+#include "Square.cpp"
 
 int main() {
     // Display
@@ -15,44 +16,92 @@ int main() {
     //write(icon);
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
+    // FONT
+    sf::Font notosans;
+    notosans.loadFromFile("assets/sansjp.otf");
+    //START GAME
+    sf::Text start;
+    start.setFont(notosans);
+    start.setString(L"遊びましょう");
+    start.setCharacterSize(50);
+    start.setFillColor(sf::Color{0xe60052FF});
+    start.setLetterSpacing(2);
+    int gamex = start.getLocalBounds().width, gamey = start.getLocalBounds().height;
+    start.setPosition(length/2 - gamex/2, height/2 - gamey/2);
+    // ND GAME
+    sf::Text gameover;
+    gameover.setFont(notosans);
+    gameover.setString(L"あなたが死んでいる");
+    gameover.setCharacterSize(50);
+    gameover.setFillColor(sf::Color{0xe60052FF});
+    gameover.setLetterSpacing(2);
+    gamex = gameover.getLocalBounds().width;
+    gamey = gameover.getLocalBounds().height;
+    gameover.setPosition(length/2 - gamex/2, height/2 - gamey/2);
+
     // Sound Effects
     sf::SoundBuffer buffer;
     buffer.loadFromFile("assets/bounce.wav");
     sf::Sound bounce;
     bounce.setBuffer(buffer);
+    // Start Effect
+    sf::SoundBuffer starter;
+    starter.loadFromFile("assets/start.wav");
+    sf::Sound begin;
+    begin.setBuffer(starter);
+
+    //End Effect
+    sf::SoundBuffer ender;
+    ender.loadFromFile("assets/end.wav");
+    sf::Sound over;
+    over.setBuffer(ender);
 
     // Paddle one and two
     Paddle one = Paddle(0, length, height);
     Paddle two = Paddle(1, length, height);
 
+    // Square
+    Square ball = Square(length, height, bounce);
+
+    // Simple Start Screen
+    while (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) window.close();
+        }
+        window.clear(bgcolor);
+        ball.move(one, two);
+        ball.draw(window);
+        window.draw(start);
+        window.display();
+    }
+    begin.play();
+
     // Main loop
-    while (window.isOpen()) {
+    while (!ball.offscr()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) window.close();
         }
 
-        //if(mainSquare.box.getPosition().x <= 0) {
-        //    mainSquare.speedx = -mainSquare.speedx;
-        //    bounce.play();
-        //} else if (mainSquare.box.getPosition().x >= length - mainSquare.side) {
-        //    mainSquare.speedx = -mainSquare.speedx;
-        //    bounce.play();
-        //}
-        //if(mainSquare.box.getPosition().y <= 0) {
-        //    mainSquare.speedy = -mainSquare.speedy;
-        //    bounce.play();
-        //} else if (mainSquare.box.getPosition().y >= width - mainSquare.side) {
-        //    mainSquare.speedy = -mainSquare.speedy;
-        //    bounce.play();
-        //}
-        // Drawings
         window.clear(bgcolor);
         one.draw(window);
         two.draw(window);
+        ball.move(one, two);
+        ball.draw(window);
 
         window.display();
     }
 
+    // Drawing End screen Text
+    window.draw(gameover);
+    window.display();
+    over.play();
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) window.close();
+        }
+    }
     return 0;
 }
