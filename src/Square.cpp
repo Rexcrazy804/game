@@ -55,6 +55,9 @@ bool Square::offscr() {
     return (x < 0 || x + side > winlength);
 }
 
-void Square::draw(sf::RenderWindow& window) {
-    window.draw(rect);
-}
+void Square::draw(sf::RenderWindow& window) { window.draw(rect); }
+
+int Square::getposy() { return rect.getPosition().y; }
+int Square::getposx() { return rect.getPosition().x; }
+int Square::getside() { return side; }
+int Square::getspeedy() { return speedy; }

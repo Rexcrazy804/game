@@ -4,12 +4,14 @@
 class Paddle {
     public:
         Paddle(int, int, int);
-        void draw(sf::RenderWindow&);
+        void draw(sf::RenderWindow&, bool);
+        void aimove(int, int, int);
 
         int getposx();
         int getposy();
         int getlength();
         int getheight();
+        int getspeed();
 
     private:
         void boxcolor(sf::Color);
@@ -17,6 +19,6 @@ class Paddle {
         void move();
 
         int player, length, height, speed, gap, winlength, winheight;
-        sf::RectangleShape box;
         sf::Color squarecolor;
+        sf::RectangleShape box;
 };

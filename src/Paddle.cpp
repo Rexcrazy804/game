@@ -1,15 +1,16 @@
 #include "Paddle.h"
+#include "math.h"
 
 Paddle::Paddle(int id, int winl, int winh) :
     player(id),
     length(20),
     height(100),
-    speed(3),
+    speed(4),
     gap(10),
     winlength(winl),
     winheight(winh),
-    box(sf::RectangleShape{sf::Vector2f(length, height)}),
-    squarecolor(sf::Color{0xe60052FF})
+    squarecolor(sf::Color{0xe60052FF}),
+    box(sf::RectangleShape{sf::Vector2f(length, height)})
 { boxinit(); }
 
 void Paddle::boxinit() {
@@ -23,10 +24,19 @@ void Paddle::boxcolor(sf::Color clr) {
     box.setFillColor(clr);
 }
 
-void Paddle::draw(sf::RenderWindow& window) {
-    move();
+void Paddle::draw(sf::RenderWindow& window, bool mv = true) {
+    if (mv) { move(); }
     window.draw(box);
 }
+
+void Paddle::aimove(int by, int bx, int sp) {
+    int py = getposy() + height/2;
+    int expect = by + speed*(winlength-gap - bx)%20;
+    if (py - expect != 0) {
+        box.move(0, (py > expect)? -speed : speed);
+    }
+}
+
 
 void Paddle::move() {
     if (player == 0) {
@@ -50,3 +60,4 @@ int Paddle::getposx() { return box.getPosition().x; }
 int Paddle::getposy() { return box.getPosition().y; }
 int Paddle::getlength() { return length; }
 int Paddle::getheight() { return height; }
+int Paddle::getspeed() { return speed; }

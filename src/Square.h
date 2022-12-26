@@ -9,6 +9,10 @@ class Square {
         void move(Paddle, Paddle);
         void draw(sf::RenderWindow&);
         bool offscr();
+        int getposy();
+        int getposx();
+        int getside();
+        int getspeedy();
 
     private:
         void circinit();

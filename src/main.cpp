@@ -67,7 +67,10 @@ int main() {
     while (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) window.close();
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                exit(0);
+            }
         }
         window.clear(bgcolor);
         ball.move(one, two);
@@ -81,12 +84,17 @@ int main() {
     while (!ball.offscr()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) window.close();
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                exit(0);
+            }
         }
 
         window.clear(bgcolor);
         one.draw(window);
-        two.draw(window);
+        //two.draw(window);
+        two.draw(window, false);
+        two.aimove(ball.getposy() + ball.getside() / 2, ball.getposx() + ball.getside(), ball.getspeedy());
         ball.move(one, two);
         ball.draw(window);
 
@@ -100,7 +108,9 @@ int main() {
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) window.close();
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
         }
     }
     return 0;
