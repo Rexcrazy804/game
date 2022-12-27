@@ -24,8 +24,9 @@ void Square::move(Paddle p1, Paddle p2) {
     int x = rect.getPosition().x;
     int y = rect.getPosition().y;
 
-    // Code for hitbox of the pads
+    // Paddle Sides
     if (x == p1.getposx() + p1.getlength()) {
+        // SIDES
         if ( (p1.getposy() <= y && y <= p1.getposy() + p1.getheight()) || (p1.getposy() <= y + side && y + side <= p1.getposy() + p1.getheight())) {
             speedx = -speedx;
             bounce.play();
@@ -33,6 +34,18 @@ void Square::move(Paddle p1, Paddle p2) {
     } else if (x + side == p2.getposx()) {
         if ( (p2.getposy() <= y && y <= p2.getposy() + p2.getheight()) || (p2.getposy() <= y + side && y + side <= p2.getposy() + p2.getheight())) {
             speedx = -speedx;
+            bounce.play();
+        }
+    }
+    // Paddle top and bottom
+    if (x < p1.getposx() + p1.getlength() && x + side > p1.getposx()) {
+        if (y + side == p1.getposy() or y == p1.getposy() + p1.getheight()) {
+            speedy = -speedy;
+            bounce.play();
+        }
+    } else if (x > p2.getposx() && x + side < p2.getposx() + p2.getlength()) {
+        if (y + side == p2.getposy() or y == p2.getposy() + p2.getheight()) {
+            speedy = -speedy;
             bounce.play();
         }
     }
