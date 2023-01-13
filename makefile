@@ -11,9 +11,14 @@ LINKS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 # Executable
 all: compile link
 
+# Compilation and Linking
 link: main.o Paddle.o Square.o
 	$(CC) main.o -o $(EXEPTH) -L$(SFML)\lib $(LINKS)
 compile: src/*.cpp
 	$(CC) $(CFLAGS) -c $? -I$(SFML)\include
+
+# Runner and Cleaner
+run: execute/main.exe
+	./execute/main.exe
 clean:
 	rm *.o $(EXEPTH)
