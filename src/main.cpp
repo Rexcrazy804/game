@@ -13,7 +13,6 @@ int main() {
     // Display Icon Setting
     sf::Image icon;
     icon.loadFromFile("assets/icon.png");
-    //write(icon);
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     // FONT
@@ -92,9 +91,9 @@ int main() {
 
         window.clear(bgcolor);
         one.draw(window);
-        //two.draw(window);
-        two.draw(window, false);
-        two.aimove(ball.getposy() + ball.getside() / 2, ball.getposx() + ball.getside(), ball.getspeedy());
+        two.draw(window);
+        //two.draw(window, false);
+        //two.aimove(ball.getposy() + ball.getside() / 2, ball.getposx() + ball.getside(), ball.getspeedy());
         ball.move(one, two);
         ball.draw(window);
 
