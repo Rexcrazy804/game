@@ -29,6 +29,7 @@ void Paddle::draw(sf::RenderWindow& window, bool mv = true) {
     window.draw(box);
 }
 
+// Code for Computer assisted second player, pseudo ai.
 void Paddle::aimove(int by, int bx, int sp) {
     int py = getposy() + height/2;
     int expect = by + speed*(winlength-gap - bx)%20;
@@ -38,6 +39,7 @@ void Paddle::aimove(int by, int bx, int sp) {
 }
 
 
+// Input and movement
 void Paddle::move() {
     if (player == 0) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && box.getPosition().y > 0 + gap) {

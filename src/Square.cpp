@@ -19,6 +19,7 @@ void Square::circinit() {
     rect.setPosition(winlength/2 - side/2, winheight/2 - side/2);
 }
 
+// This function feals with the square's movement and directional changes as it colides with the player's paddles.
 void Square::move(Paddle p1, Paddle p2) {
     // The paddles come into play here
     int x = rect.getPosition().x;

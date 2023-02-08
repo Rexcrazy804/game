@@ -1,7 +1,6 @@
 # Directories
 SFML = C:\Users\renyj\Documents\Molecule\C++\SFML
 EXEPTH = execute/main.exe
-CLASS = src/Square.cpp
 
 # Compiler and flags
 CC = g++
@@ -18,7 +17,7 @@ compile: src/*.cpp
 	$(CC) $(CFLAGS) -c $? -I$(SFML)\include
 
 # Runner and Cleaner
-run: execute/main.exe
-	./execute/main.exe
+run:
+	./$(EXEPTH)
 clean:
 	rm *.o $(EXEPTH)

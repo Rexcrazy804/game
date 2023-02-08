@@ -27,7 +27,7 @@ int main() {
     start.setLetterSpacing(2);
     int gamex = start.getLocalBounds().width, gamey = start.getLocalBounds().height;
     start.setPosition(length/2 - gamex/2, height/2 - gamey/2);
-    // ND GAME
+    // END GAME
     sf::Text gameover;
     gameover.setFont(notosans);
     gameover.setString(L"あなたが死んでいる");
