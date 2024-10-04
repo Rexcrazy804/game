@@ -3,7 +3,7 @@ A simple, aesthetically pleasing pong game, written in c++ leveraging the SFML l
 this is quite an old project, decided to revive it with the power of the nix build system.
 
 # Installation / How to play?
-first get ![nix](https://nixos.org/).Then, run (ensure that nix flakes are enabled!) 
+first get ![nix](https://nixos.org/). Then, run (ensure that nix flakes are enabled!) 
 ```bash
 nix run github:Rexcrazy804/game
 ```
