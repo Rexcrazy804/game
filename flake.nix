@@ -24,14 +24,15 @@
           -I${pkgs.lib.makeIncludePath buildInputs}
 
         g++ \
-          main.o -o paddle-game \
+          main.o Paddle.o Square.o \
+          -o ${pname} \
           -L${pkgs.lib.makeLibraryPath buildInputs} \
           -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio \
       '';
 
       installPhase = ''
         mkdir -p $out/bin
-        cp paddle-game $out/bin
+        cp ${pname} $out/bin
       '';
     };
   in {

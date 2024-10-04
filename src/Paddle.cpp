@@ -24,7 +24,7 @@ void Paddle::boxcolor(sf::Color clr) {
     box.setFillColor(clr);
 }
 
-void Paddle::draw(sf::RenderWindow& window, bool mv = true) {
+void Paddle::draw(sf::RenderWindow& window, bool mv) {
     if (mv) { move(); }
     window.draw(box);
 }

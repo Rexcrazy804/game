@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "Paddle.cpp"
-#include "Square.cpp"
+#include "Paddle.h"
+#include "Square.h"
 
 int main() {
     // Display

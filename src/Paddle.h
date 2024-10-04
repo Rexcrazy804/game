@@ -4,7 +4,7 @@
 class Paddle {
     public:
         Paddle(int, int, int);
-        void draw(sf::RenderWindow&, bool);
+        void draw(sf::RenderWindow&, bool = true);
         void aimove(int, int, int);
 
         int getposx();
