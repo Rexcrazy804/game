@@ -24,8 +24,7 @@
           -I${pkgs.lib.makeIncludePath buildInputs}
 
         g++ \
-          main.o Paddle.o Square.o \
-          -o ${pname} \
+          *.o -o ${pname} \
           -L${pkgs.lib.makeLibraryPath buildInputs} \
           -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio \
       '';
