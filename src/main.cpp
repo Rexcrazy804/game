@@ -1,116 +1,137 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "Paddle.h"
-#include "Square.h"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/VideoMode.hpp>
+#include "Paddle.hpp"
+#include "Square.hpp"
+
+using namespace sf;
+
+enum GameState {
+  StartScreen,
+  GameScreen,
+  EndScreen,
+};
 
 int main() {
-    // Display
-    const int length = 1080, height = 768;
-    const auto bgcolor = sf::Color{0x303030FF};
-    sf::RenderWindow window(sf::VideoMode(length, height), "Pink Pong", sf::Style::Close);
-    window.setFramerateLimit(165);
-    
-    // Display Icon Setting
-    sf::Image icon;
-    icon.loadFromFile("assets/icon.png");
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+  // Display
+  const int length = 1080, height = 600;
+  const Color bgcolor = Color{0x303030FF};
+  const VideoMode desktop = sf::VideoMode::getDesktopMode();
 
-    // FONT
-    sf::Font notosans;
-    notosans.loadFromFile("assets/sansjp.otf");
-    //START GAME
-    sf::Text start;
-    start.setFont(notosans);
-    start.setString(L"遊びましょう");
-    start.setCharacterSize(50);
-    start.setFillColor(sf::Color{0xe60052FF});
-    start.setLetterSpacing(2);
-    int gamex = start.getLocalBounds().width, gamey = start.getLocalBounds().height;
-    start.setPosition(length/2 - gamex/2, height/2 - gamey/2);
-    // END GAME
-    sf::Text gameover;
-    gameover.setFont(notosans);
-    gameover.setString(L"あなたが死んでいる");
-    gameover.setCharacterSize(50);
-    gameover.setFillColor(sf::Color{0xe60052FF});
-    gameover.setLetterSpacing(2);
-    gamex = gameover.getLocalBounds().width;
-    gamey = gameover.getLocalBounds().height;
-    gameover.setPosition(length/2 - gamex/2, height/2 - gamey/2);
+  RenderWindow window(VideoMode(length, height), "Pink Pong", Style::Close);
+  window.setFramerateLimit(165);
+  window.setPosition(Vector2i(desktop.width/2 - length/2, desktop.height/2 - height/2));
 
-    // Sound Effects
-    sf::SoundBuffer buffer;
-    buffer.loadFromFile("assets/bounce.wav");
-    sf::Sound bounce;
-    bounce.setBuffer(buffer);
-    // Start Effect
-    sf::SoundBuffer starter;
-    starter.loadFromFile("assets/start.wav");
-    sf::Sound begin;
-    begin.setBuffer(starter);
+  // Display Icon Setting
+  Image icon;
+  icon.loadFromFile("assets/icon.png");
+  window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
-    //End Effect
-    sf::SoundBuffer ender;
-    ender.loadFromFile("assets/end.wav");
-    sf::Sound over;
-    over.setBuffer(ender);
+  // FONT
+  Font notosans;
+  notosans.loadFromFile("assets/sansjp.otf");
+  //START GAME
+  Text start;
+  start.setFont(notosans);
+  start.setString(L"遊びましょう");
+  start.setCharacterSize(50);
+  start.setFillColor(Color{0xe60052FF});
+  start.setLetterSpacing(2);
+  int gamex = start.getLocalBounds().width, gamey = start.getLocalBounds().height;
+  start.setPosition(length/2.0 - gamex/2.0, height/2.0 - gamey/2.0);
+  // END GAME
+  Text gameover;
+  gameover.setFont(notosans);
+  gameover.setString(L"あなたが死んでいる");
+  gameover.setCharacterSize(50);
+  gameover.setFillColor(Color{0xe60052FF});
+  gameover.setLetterSpacing(2);
+  gamex = gameover.getLocalBounds().width;
+  gamey = gameover.getLocalBounds().height;
+  gameover.setPosition(length/2.0 - gamex/2.0, height/2.0 - gamey/2.0);
 
-    // Paddle one and two
-    Paddle one = Paddle(0, length, height);
-    Paddle two = Paddle(1, length, height);
+  // Sound Effects
+  SoundBuffer buffer;
+  buffer.loadFromFile("assets/bounce.wav");
+  Sound bounce;
+  bounce.setBuffer(buffer);
+  // Start Effect
+  SoundBuffer starter;
+  starter.loadFromFile("assets/start.wav");
+  Sound begin;
+  begin.setBuffer(starter);
 
-    // Square
-    Square ball = Square(length, height, bounce);
+  //End Effect
+  SoundBuffer ender;
+  ender.loadFromFile("assets/end.wav");
+  Sound over;
+  over.setBuffer(ender);
 
-    // Simple Start Screen
-    while (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-                exit(0);
-            }
-        }
-        window.clear(bgcolor);
+  // Paddle one and two
+  Paddle one = Paddle(0, length, height);
+  Paddle two = Paddle(1, length, height);
+
+  // Square
+  Square ball = Square(length, height, bounce);
+
+  GameState currentState = GameState::StartScreen;
+  while (true) {
+    Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == Event::Closed) {
+        window.close();
+        exit(0);
+      }
+    }
+
+    window.clear(bgcolor);
+    switch (currentState) {
+      case StartScreen:
         ball.move(one, two);
         ball.draw(window);
         window.draw(start);
-        window.display();
-    }
-    begin.play();
 
-    // Main loop
-    while (!ball.offscr()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-                exit(0);
-            }
+        if (Mouse::isButtonPressed(Mouse::Left)) {
+          currentState = GameScreen;
+          begin.play();
         }
-
-        window.clear(bgcolor);
+        break;
+      case GameScreen:
+        one.move();
         one.draw(window);
+
+        //two.aimove(
+        //  ball.getposy() + ball.getside() / 2,
+        //  ball.getposx() + ball.getside(),
+        //  ball.getspeedy()
+        //);
+        two.move();
         two.draw(window);
-        //two.draw(window, false);
-        //two.aimove(ball.getposy() + ball.getside() / 2, ball.getposx() + ball.getside(), ball.getspeedy());
+
         ball.move(one, two);
         ball.draw(window);
 
-        window.display();
-    }
-
-    // Drawing End screen Text
-    window.draw(gameover);
-    window.display();
-    over.play();
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
+        if (ball.offscr()) { 
+          currentState = EndScreen; 
+          over.play();
         }
+        break;
+      case EndScreen:
+        window.draw(gameover);
+        one.move();
+        one.draw(window);
+        two.move();
+        two.draw(window);
+        ball.draw(window);
+        if (Mouse::isButtonPressed(Mouse::Left)) {
+          currentState = GameScreen;
+          begin.play();
+        }
+        break;
     }
-    return 0;
+    window.display();
+  }
+
+  return 0;
 }
