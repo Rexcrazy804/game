@@ -14,6 +14,10 @@
       version = "0.1.69";
       src = ./.;
 
+      nativeBuildInputs = [
+        pkgs.makeWrapper
+      ];
+
       buildInputs = [
         pkgs.sfml
       ];
@@ -32,6 +36,14 @@
       installPhase = ''
         mkdir -p $out/bin
         cp ${pname} $out/bin
+
+        mkdir -p $out/share
+        cp -r $src/assets/ $out/share/assets
+        runHook postInstall
+      '';
+
+      postInstall = ''
+        wrapProgram $out/bin/${pname} --chdir $out/share/
       '';
     };
   in {
