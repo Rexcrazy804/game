@@ -88,7 +88,7 @@ int main() {
     window.clear(bgcolor);
     switch (currentState) {
       case StartScreen:
-        ball.move(one, two);
+        ball.move(one, two, false);
         ball.draw(window);
         window.draw(start);
 
@@ -119,9 +119,7 @@ int main() {
         break;
       case EndScreen:
         window.draw(gameover);
-        one.move();
         one.draw(window);
-        two.move();
         two.draw(window);
         ball.draw(window);
         if (Mouse::isButtonPressed(Mouse::Left)) {

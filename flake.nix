@@ -11,7 +11,7 @@
 
     program = pkgs.stdenv.mkDerivation rec {
       pname = "paddle-game";
-      version = "0.1.70";
+      version = "0.1.71";
       src = ./.;
 
       nativeBuildInputs = [

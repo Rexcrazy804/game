@@ -1,6 +1,6 @@
 #include "Square.hpp"
 
-Square::Square(int wl, int wh, sf::Sound aud):
+Square::Square(int wl, int wh, sf::Sound &aud):
   side(20),
   speedx(4),
   speedy(speedx),
@@ -20,34 +20,35 @@ void Square::circinit() {
 }
 
 // This function feals with the square's movement and directional changes as it colides with the player's paddles.
-void Square::move(Paddle p1, Paddle p2) {
+void Square::move(Paddle &p1, Paddle &p2, bool collidewithpaddle) {
   // The paddles come into play here
   int x = rect.getPosition().x;
   int y = rect.getPosition().y;
 
-  // Paddle Sides
-  if (x == p1.getposx() + p1.getlength()) {
-    // SIDES
-    if ( (p1.getposy() <= y && y <= p1.getposy() + p1.getheight()) || (p1.getposy() <= y + side && y + side <= p1.getposy() + p1.getheight())) {
-      speedx = -speedx;
-      bounce.play();
+  if (collidewithpaddle) {
+    // Paddle Sides
+    if (x == p1.getposx() + p1.getlength()) {
+      if ( (p1.getposy() <= y && y <= p1.getposy() + p1.getheight()) || (p1.getposy() <= y + side && y + side <= p1.getposy() + p1.getheight())) {
+        speedx = -speedx;
+        bounce.play();
+      }
+    } else if (x + side == p2.getposx()) {
+      if ( (p2.getposy() <= y && y <= p2.getposy() + p2.getheight()) || (p2.getposy() <= y + side && y + side <= p2.getposy() + p2.getheight())) {
+        speedx = -speedx;
+        bounce.play();
+      }
     }
-  } else if (x + side == p2.getposx()) {
-    if ( (p2.getposy() <= y && y <= p2.getposy() + p2.getheight()) || (p2.getposy() <= y + side && y + side <= p2.getposy() + p2.getheight())) {
-      speedx = -speedx;
-      bounce.play();
-    }
-  }
-  // Paddle top and bottom
-  if (x < p1.getposx() + p1.getlength() && x + side > p1.getposx()) {
-    if (y + side == p1.getposy() or y == p1.getposy() + p1.getheight()) {
-      speedy = -speedy;
-      bounce.play();
-    }
-  } else if (x < p2.getposx() + p2.getlength() && x + side > p2.getposx()) {
-    if (y + side == p2.getposy() or y == p2.getposy() + p2.getheight()) {
-      speedy = -speedy;
-      bounce.play();
+    // Paddle top and bottom
+    if (x < p1.getposx() + p1.getlength() && x + side > p1.getposx()) {
+      if (y + side == p1.getposy() or y == p1.getposy() + p1.getheight()) {
+        speedy = -speedy;
+        bounce.play();
+      }
+    } else if (x < p2.getposx() + p2.getlength() && x + side > p2.getposx()) {
+      if (y + side == p2.getposy() or y == p2.getposy() + p2.getheight()) {
+        speedy = -speedy;
+        bounce.play();
+      }
     }
   }
 
@@ -61,6 +62,7 @@ void Square::move(Paddle p1, Paddle p2) {
     speedy = -speedy;
     bounce.play();
   }
+
   rect.move(speedx, speedy);  
 }
 

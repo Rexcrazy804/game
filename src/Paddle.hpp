@@ -18,7 +18,7 @@ private:
   void boxcolor(sf::Color);
   void boxinit();
 
-  int player, length, height, speed, gap, winlength, winheight;
+  const int player, length, height, speed, gap, winlength, winheight;
   sf::Color squarecolor;
   sf::RectangleShape box;
 };
