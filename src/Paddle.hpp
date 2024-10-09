@@ -5,7 +5,7 @@ class Paddle {
 public:
   Paddle(int, int, int);
   void draw(sf::RenderWindow&);
-  void move();
+  void move(float);
   void aimove(int, int, int);
 
   int getposx();

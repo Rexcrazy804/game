@@ -1,7 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/System/Clock.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <ctime>
 #include "Paddle.hpp"
 #include "Square.hpp"
 
@@ -61,7 +65,6 @@ int main() {
   starter.loadFromFile("assets/start.wav");
   Sound begin;
   begin.setBuffer(starter);
-
   //End Effect
   SoundBuffer ender;
   ender.loadFromFile("assets/end.wav");
@@ -75,8 +78,15 @@ int main() {
   // Square
   Square ball = Square(length, height, bounce);
 
+  // inits
   GameState currentState = GameState::StartScreen;
+  Clock clock;
+  const int MOUSE_DELAY = 8;
+  int mouselockbuffer = MOUSE_DELAY;
+
   while (true) {
+    float delta = clock.restart().asSeconds();
+
     Event event;
     while (window.pollEvent(event)) {
       if (event.type == Event::Closed) {
@@ -88,17 +98,19 @@ int main() {
     window.clear(bgcolor);
     switch (currentState) {
       case StartScreen:
-        ball.move(one, two, false);
+        ball.move(one, two, delta, false);
         ball.draw(window);
         window.draw(start);
 
         if (Mouse::isButtonPressed(Mouse::Left)) {
-          currentState = GameScreen;
-          begin.play();
+          if (mouselockbuffer >= MOUSE_DELAY) {
+            currentState = GameScreen;
+            begin.play();
+          } else { mouselockbuffer++; }
         }
         break;
       case GameScreen:
-        one.move();
+        one.move(delta);
         one.draw(window);
 
         //two.aimove(
@@ -106,10 +118,10 @@ int main() {
         //  ball.getposx() + ball.getside(),
         //  ball.getspeedy()
         //);
-        two.move();
+        two.move(delta);
         two.draw(window);
 
-        ball.move(one, two);
+        ball.move(one, two, delta);
         ball.draw(window);
 
         if (ball.offscr()) { 
@@ -123,8 +135,9 @@ int main() {
         two.draw(window);
         ball.draw(window);
         if (Mouse::isButtonPressed(Mouse::Left)) {
-          currentState = GameScreen;
-          begin.play();
+          ball.circinit();
+          mouselockbuffer = 0;
+          currentState = StartScreen;
         }
         break;
     }

@@ -6,8 +6,10 @@
 class Square {
 public:
   Square(int, int, sf::Sound&);
-  void move(Paddle&, Paddle&, bool = true);
+  void move(Paddle&, Paddle&, float, bool = true);
   void draw(sf::RenderWindow&);
+  void circinit();
+
   bool offscr();
   int getposy();
   int getposx();
@@ -15,7 +17,6 @@ public:
   int getspeedy();
 
 private:
-  void circinit();
 
   const int side, winlength, winheight;
   int speedx, speedy;

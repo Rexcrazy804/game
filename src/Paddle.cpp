@@ -5,7 +5,7 @@ Paddle::Paddle(int id, int winl, int winh) :
   player(id),
   length(20),
   height(100),
-  speed(4),
+  speed(450),
   gap(10),
   winlength(winl),
   winheight(winh),
@@ -40,20 +40,20 @@ void Paddle::aimove(int by, int bx, int sp) {
 
 
 // Input and movement
-void Paddle::move() {
+void Paddle::move(float delta) {
   if (player == 0) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && box.getPosition().y > 0 + gap) {
-      box.move(0, -speed);
+      box.move(0, -speed * delta);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && box.getPosition().y < winheight - height - gap) {
-      box.move(0, speed);
+      box.move(0, speed * delta);
     }
   } else if (player == 1) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && box.getPosition().y > 0 + gap) {
-      box.move(0, -speed);
+      box.move(0, -speed * delta);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && box.getPosition().y < winheight - height - gap) {
-      box.move(0, speed);
+      box.move(0, speed * delta);
     }
   }
 }
