@@ -5,7 +5,7 @@ Paddle::Paddle(int id, int winl, int winh) :
   player(id),
   length(20),
   height(100),
-  speed(450),
+  speed(525),
   gap(10),
   winlength(winl),
   winheight(winh),

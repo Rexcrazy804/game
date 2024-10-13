@@ -5,6 +5,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <iostream>
 #include <ctime>
 #include "Paddle.hpp"
 #include "Square.hpp"
@@ -24,7 +25,7 @@ int main() {
   const VideoMode desktop = sf::VideoMode::getDesktopMode();
 
   RenderWindow window(VideoMode(length, height), "Pink Pong", Style::Close);
-  window.setFramerateLimit(165);
+  window.setFramerateLimit(60);
   window.setPosition(Vector2i(desktop.width/2 - length/2, desktop.height/2 - height/2));
 
   // Display Icon Setting
@@ -81,8 +82,8 @@ int main() {
   // inits
   GameState currentState = GameState::StartScreen;
   Clock clock;
-  const int MOUSE_DELAY = 8;
-  int mouselockbuffer = MOUSE_DELAY;
+  const float MOUSE_DELAY = 0.5;
+  float mouselockbuffer = MOUSE_DELAY;
 
   while (true) {
     float delta = clock.restart().asSeconds();
@@ -102,11 +103,15 @@ int main() {
         ball.draw(window);
         window.draw(start);
 
+        if (mouselockbuffer < MOUSE_DELAY) {
+          mouselockbuffer += delta; 
+          /*std::cout << mouselockbuffer << std::endl;*/
+          break;
+        }
+            
         if (Mouse::isButtonPressed(Mouse::Left)) {
-          if (mouselockbuffer >= MOUSE_DELAY) {
-            currentState = GameScreen;
-            begin.play();
-          } else { mouselockbuffer++; }
+          currentState = GameScreen;
+          begin.play();
         }
         break;
       case GameScreen:
@@ -136,7 +141,7 @@ int main() {
         ball.draw(window);
         if (Mouse::isButtonPressed(Mouse::Left)) {
           ball.circinit();
-          mouselockbuffer = 0;
+          mouselockbuffer = 0.0;
           currentState = StartScreen;
         }
         break;
