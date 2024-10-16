@@ -8,8 +8,8 @@ public:
   void move(float);
   void aimove(int, int, int);
 
-  int getposx();
-  int getposy();
+  float getposx();
+  float getposy();
   int getlength();
   int getheight();
   int getspeed();

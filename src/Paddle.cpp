@@ -58,8 +58,8 @@ void Paddle::move(float delta) {
   }
 }
 
-int Paddle::getposx() { return box.getPosition().x; }
-int Paddle::getposy() { return box.getPosition().y; }
+float Paddle::getposx() { return box.getPosition().x; }
+float Paddle::getposy() { return box.getPosition().y; }
 int Paddle::getlength() { return length; }
 int Paddle::getheight() { return height; }
 int Paddle::getspeed() { return speed; }
