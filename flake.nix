@@ -20,7 +20,7 @@
       };
     in pkgs.stdenv.mkDerivation rec {
       pname = "pink-pong";
-      version = "0.1.71";
+      version = "0.2.0";
       src = ./.;
 
       nativeBuildInputs = [
