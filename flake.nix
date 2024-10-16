@@ -9,8 +9,17 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
 
-    program = pkgs.stdenv.mkDerivation rec {
-      pname = "paddle-game";
+    program = let 
+      desktopItem = pkgs.makeDesktopItem {
+        name = "pink-pong";
+        exec = "pink-pong";
+        comment = "A simple pong clone written in C++ using sfml library";
+        desktopName = "Pink Pong";
+        categories = ["Game"];
+        icon = ./assets/icon.png;
+      };
+    in pkgs.stdenv.mkDerivation rec {
+      pname = "pink-pong";
       version = "0.1.71";
       src = ./.;
 
@@ -40,6 +49,9 @@
         mkdir -p $out/share
         cp -r $src/assets/ $out/share/assets
         runHook postInstall
+
+        mkdir -p $out/share/applications
+        cp ${desktopItem}/share/applications/* $out/share/applications
       '';
 
       postInstall = ''
