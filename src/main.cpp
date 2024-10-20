@@ -5,8 +5,8 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
-#include <iostream>
 #include <ctime>
+#include <iostream>
 #include "Paddle.hpp"
 #include "Square.hpp"
 
@@ -18,15 +18,33 @@ enum GameState {
   EndScreen,
 };
 
-int main() {
-  // Display
-  const int length = 1080, height = 600;
-  const Color bgcolor = Color{0x303030FF};
-  const VideoMode desktop = sf::VideoMode::getDesktopMode();
+int main(int argc, char* args[]) {
+  // ENV ARGS:
+  // --fps=<value>    sets the frame limit, default 60.
+  
+  int framelimit = 60;
+  for (int i = 1; i < argc; i++) {
+    using namespace std;
+    
+    string arg = args[i];
+    if (arg.find('=') != string::npos) {
+      string argkey = arg.substr(0, arg.find('='));
+      string argval = arg.substr(arg.find('=') + 1, arg.length());
 
-  RenderWindow window(VideoMode(length, height), "Pink Pong", Style::Close);
-  window.setFramerateLimit(60);
-  window.setPosition(Vector2i(desktop.width/2 - length/2, desktop.height/2 - height/2));
+      if (argkey.compare("--fps") == 0) {
+        framelimit = std::stoi(argval);
+      }
+    }
+  }
+
+  // Display
+  const int WINLENGTH = 1080, WINHEIGHT = 600;
+  const Color BGCOLOR = Color{0x303030FF};
+  const VideoMode DESKTOP_MODE = sf::VideoMode::getDesktopMode();
+
+  RenderWindow window(VideoMode(WINLENGTH, WINHEIGHT), "Pink Pong", Style::Close);
+  window.setFramerateLimit(framelimit);
+  window.setPosition(Vector2i(DESKTOP_MODE.width/2 - WINLENGTH/2, DESKTOP_MODE.height/2 - WINHEIGHT/2));
 
   // Display Icon Setting
   Image icon;
@@ -44,7 +62,7 @@ int main() {
   start.setFillColor(Color{0xe60052FF});
   start.setLetterSpacing(2);
   int gamex = start.getLocalBounds().width, gamey = start.getLocalBounds().height;
-  start.setPosition(length/2.0 - gamex/2.0, height/2.0 - gamey/2.0);
+  start.setPosition(WINLENGTH/2.0 - gamex/2.0, WINHEIGHT/2.0 - gamey/2.0);
   // END GAME
   Text gameover;
   gameover.setFont(notosans);
@@ -54,7 +72,7 @@ int main() {
   gameover.setLetterSpacing(2);
   gamex = gameover.getLocalBounds().width;
   gamey = gameover.getLocalBounds().height;
-  gameover.setPosition(length/2.0 - gamex/2.0, height/2.0 - gamey/2.0);
+  gameover.setPosition(WINLENGTH/2.0 - gamex/2.0, WINHEIGHT/2.0 - gamey/2.0);
 
   // Sound Effects
   SoundBuffer buffer;
@@ -73,11 +91,11 @@ int main() {
   over.setBuffer(ender);
 
   // Paddle one and two
-  Paddle one = Paddle(0, length, height);
-  Paddle two = Paddle(1, length, height);
+  Paddle one = Paddle(0, WINLENGTH, WINHEIGHT);
+  Paddle two = Paddle(1, WINLENGTH, WINHEIGHT);
 
   // Square
-  Square ball = Square(length, height, bounce);
+  Square ball = Square(WINLENGTH, WINHEIGHT, bounce);
 
   // inits
   GameState currentState = GameState::StartScreen;
@@ -96,7 +114,7 @@ int main() {
       }
     }
 
-    window.clear(bgcolor);
+    window.clear(BGCOLOR);
     switch (currentState) {
       case StartScreen:
         ball.move(one, two, delta, false);
