@@ -3,16 +3,14 @@
 
 Square::Square(int wl, int wh, sf::Sound &aud):
   side(20),
-  speedx(525),
-  speedy(speedx),
-
   winlength(wl),
   winheight(wh),
-
-  rect(sf::RectangleShape{sf::Vector2f(side, side)}),
   rectcolor(sf::Color{0xe60052FF}),
 
-  bounce(aud)
+  bounce(aud),
+  rect(sf::RectangleShape{sf::Vector2f(side, side)}),
+  speedx(525),
+  speedy(speedx)
 { circinit(); }
 
 void Square::circinit() {

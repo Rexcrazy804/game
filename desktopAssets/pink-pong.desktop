@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=Game
+Comment=A simple pong clone written in C++ using sfml library
+Exec=pink-pong
+Icon=pink-pong
+Name=Pink Pong
+Type=Application
+Version=1.4

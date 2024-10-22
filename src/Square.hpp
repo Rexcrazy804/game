@@ -17,10 +17,10 @@ public:
   int getspeedy();
 
 private:
-
   const int side, winlength, winheight;
-  int speedx, speedy;
-  sf::RectangleShape rect;
   const sf::Color rectcolor;
+
   sf::Sound &bounce;
+  sf::RectangleShape rect;
+  int speedx, speedy;
 };
