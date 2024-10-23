@@ -3,7 +3,7 @@ A simple, aesthetically pleasing pong game, written in c++ leveraging the SFML l
 this is quite an old project, decided to revive it with the power of the nix build system.
 
 # Installation / How to play?
-first get ![nix](https://nixos.org/). Then, run (ensure that nix flakes are enabled!) 
+first get ![nix](https://nixos.org/). Then, run (you will probably need nixGL if not on nixOS) 
 ```bash
 nix run github:Rexcrazy804/game
 ```
@@ -13,8 +13,9 @@ you may easily install the game by utilizing the nix profile command.
 ![image](https://github.com/user-attachments/assets/26dea7f0-7cb5-49c0-9d3b-b56de08f4585)
 
 # Plans?
-Presently I am not really think of much, I might tinker with the flake but presently I am a bit occupied.
-But for when I do get time it would be great to implement these:
-- Finish Implementing the ai
-- Restart Screen
-- maybe a settings button to change the colors?
+Presently I am not really thinking of much since I am a bit occupied, I might
+tinker with the flake. But for when I do get time it would be great to
+implement these:
+- [x] ~Restart Screen~
+- [ ] Finish Implementing the ai
+- [ ] maybe a settings button to change the colors?
