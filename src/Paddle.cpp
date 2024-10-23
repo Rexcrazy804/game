@@ -11,9 +11,9 @@ Paddle::Paddle(int id, int winl, int winh) :
   winheight(winh),
   squarecolor(sf::Color{0xe60052FF}),
   box(sf::RectangleShape{sf::Vector2f(length, height)})
-{ boxinit(); }
+{ init(); }
 
-void Paddle::boxinit() {
+void Paddle::init() {
   if (player == 0)
     box.setPosition(gap, winheight/2.0 - height/2.0);
   else if (player == 1)

@@ -11,9 +11,9 @@ Square::Square(int wl, int wh, sf::Sound &aud):
   rect(sf::RectangleShape{sf::Vector2f(side, side)}),
   speedx(525),
   speedy(speedx)
-{ circinit(); }
+{ init(); }
 
-void Square::circinit() {
+void Square::init() {
   rect.setFillColor(rectcolor);
   rect.setPosition(winlength/2.0 - side/2.0, winheight/2.0 - side/2.0);
 }

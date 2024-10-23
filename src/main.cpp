@@ -158,7 +158,9 @@ int main(int argc, char* args[]) {
         two.draw(window);
         ball.draw(window);
         if (Mouse::isButtonPressed(Mouse::Left)) {
-          ball.circinit();
+          ball.init();
+          one.init();
+          two.init();
           mouselockbuffer = 0.0;
           currentState = StartScreen;
         }

@@ -8,7 +8,7 @@ public:
   Square(int, int, sf::Sound&);
   void move(Paddle&, Paddle&, float, bool = true);
   void draw(sf::RenderWindow&);
-  void circinit();
+  void init();
 
   bool offscr();
   int getposy();

@@ -7,6 +7,7 @@ public:
   void draw(sf::RenderWindow&);
   void move(float);
   void aimove(int, int, int);
+  void init();
 
   float getposx();
   float getposy();
@@ -16,7 +17,6 @@ public:
 
 private:
   void boxcolor(sf::Color);
-  void boxinit();
 
   const int player, length, height, speed, gap, winlength, winheight;
   sf::Color squarecolor;
